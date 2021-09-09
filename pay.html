@@ -1,0 +1,192 @@
+<?php
+   function ValidateEmail($email)
+   {
+      $pattern = '/^([0-9a-z]([-.\w]*[0-9a-z])*@(([0-9a-z])+([-\w]*[0-9a-z])*\.)+[a-z]{2,6})$/i';
+      return preg_match($pattern, $email);
+   }
+   if($_SERVER['REQUEST_METHOD'] == 'POST')
+   {
+      $mailto = $_POST['friendemail'];
+      $mailfrom = $_POST['email'];
+      $subject = "A web site recommendation from $_POST[name]";
+      $success_url = './thanks.html';
+      $eol = "\n";
+      $header  = 'From: '.$mailfrom.$eol;
+      $header .= 'Reply-To: '.$mailfrom.$eol;
+      $header .= 'MIME-Version: 1.0'.$eol;
+      $header .= 'X-Mailer: PHP v'.phpversion().$eol;
+      if (!ValidateEmail($mailfrom) || !ValidateEmail($mailto))
+      {
+         die("The specified email address is invalid!");
+      }
+      $message = "Hi $_POST[friendname],\n\n";
+      $message .= "A friend of yours, $_POST[name], whose email address is $_POST[email] thought you may like to visit this web site:\n"; 
+      $message .= $_POST['website'];
+      mail($mailto, $subject, $message, $header);
+   
+      header('Location: '.$success_url);
+      exit;
+   }
+?><!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Оплатить</title>
+<meta name="generator" content="WYSIWYG Web Builder 15 - http://www.wysiwygwebbuilder.com">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="css/font-awesome.min.css" rel="stylesheet">
+<link href="css/pay.css" rel="stylesheet">
+<link href="css/pay.css" rel="stylesheet">
+<script src="js/jquery-1.12.4.min.js"></script>
+<script src="js/jquery-ui.min.js"></script>
+<script src="js/transition.min.js"></script>
+<script src="js/collapse.min.js"></script>
+<script src="js/dropdown.min.js"></script>
+<script src="js/wwb15.min.js"></script>
+<script src="js/pay.js"></script>
+</head>
+<body>
+   <div id="wb_header">
+      <div id="header">
+         <div class="row">
+            <div class="col-1">
+               <div id="wb_headerLogo" style="display:inline-block;width:100%;z-index:0;vertical-align:top;">
+                  <ul id="headerLogo">
+                     <li><a href="./index.html">&#1042;&#1040;&#1064;&nbsp; &#1054;&#1058;&#1045;&#1051;&#1068;</a></li>
+                  </ul>
+               </div>
+            </div>
+            <div class="col-2">
+               <div id="wb_headerMenu" style="display:inline-block;width:100%;z-index:1001;">
+                  <div id="headerMenu" class="headerMenu" style="width:100%;height:auto !important;">
+                     <div class="container">
+                        <div class="navbar-header">
+                           <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".headerMenu-navbar-collapse">
+                              <span class="icon-bar"></span>
+                              <span class="icon-bar"></span>
+                              <span class="icon-bar"></span>
+                           </button>
+                        </div>
+                        <div class="headerMenu-navbar-collapse collapse">
+                           <ul class="nav navbar-nav">
+                              <li class="">
+                                 <a href="./index.html">ГЛАВНАЯ</a>
+                              </li>
+                              <li class="">
+                                 <a href="#tips">ОПЛАТА</a>
+                              </li>
+                           </ul>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+   <div id="wb_home">
+      <div id="home-overlay"></div>
+      <div id="home">
+         <div class="col-1">
+            <div id="wb_Text1">
+               <span style="color:#FF0000;font-family:Arial;font-size:48px;"><strong>Заполняете, пожалуйста форму оплаты</strong></span>
+            </div>
+         </div>
+      </div>
+   </div>
+   <div id="StickyLayer" style="position:fixed;text-align:left;left:auto;right:25px;top:auto;bottom:25px;width:50px;height:50px;z-index:33;">
+      <div id="wb_up-arrow" style="position:absolute;left:9px;top:8px;width:24px;height:24px;text-align:center;z-index:3;">
+         <a href="./pay.html#home"><div id="up-arrow"><i class="fa fa-angle-up"></i></div></a></div>
+   </div>
+   <div id="wb_LayoutGrid1">
+      <form name="pay" method="get" action="" enctype="multipart/form-data" id="LayoutGrid1">
+         <div class="row">
+            <div class="col-1">
+               <div id="wb_LayoutGrid2">
+                  <div id="LayoutGrid2">
+                     <div class="row">
+                        <div class="col-1">
+                           <label for="Editbox1" id="Label1" style="display:block;width:100%;z-index:4;">Ваше имя</label>
+                        </div>
+                        <div class="col-2">
+                           <input type="text" id="Editbox1" style="display:block;width:100%;height:25px;z-index:5;" name="name" value="" spellcheck="false">
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div id="wb_LayoutGrid3">
+                  <div id="LayoutGrid3">
+                     <div class="row">
+                        <div class="col-1">
+                           <label for="Editbox2" id="Label2" style="display:block;width:100%;z-index:6;">Дата</label>
+                        </div>
+                        <div class="col-2">
+                           <input type="date" id="Editbox2" style="display:block;width:100%;height:26px;z-index:7;" name="date" value="" spellcheck="false">
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div id="wb_LayoutGrid5">
+                  <div id="LayoutGrid5">
+                     <div class="row">
+                        <div class="col-1">
+                           <label for="Editbox4" id="Label4" style="display:block;width:100%;z-index:8;">Телефон</label>
+                        </div>
+                        <div class="col-2">
+                           <input type="text" id="Editbox4" style="display:block;width:100%;height:25px;z-index:9;" name="phone" value="" spellcheck="false">
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div id="wb_LayoutGrid6">
+                  <div id="LayoutGrid6">
+                     <div class="row">
+                        <div class="col-1">
+                           <label for="Editbox5" id="Label5" style="display:block;width:100%;z-index:10;">Email:</label>
+                        </div>
+                        <div class="col-2">
+                           <input type="text" id="Editbox5" style="display:block;width:100%;height:25px;z-index:11;" name="email" value="" spellcheck="false">
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div id="wb_LayoutGrid7">
+                  <div id="LayoutGrid7">
+                     <div class="row">
+                        <div class="col-1">
+                        </div>
+                        <div class="col-2">
+                           <a id="Button1" href="https://my.qiwi.com/Galyna-Kq3tqEAtLp" style="display:inline-block;width:94px;height:23px;z-index:12;">Оплатить</a>
+                           <input type="reset" id="Button2" name="Сброс" value="Сбросить всё" style="display:inline-block;width:116px;height:25px;z-index:13;">
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </form>
+   </div>
+   <div id="wb_LayoutGrid9">
+      <div id="LayoutGrid9">
+         <div class="row">
+            <div class="col-1">
+               <div id="wb_homeText">
+                  <span style="background-color:#00FF00;color:#0000CD;font-family:Arial;font-size:32px;line-height:36px;"><strong>Вы указываете данные,которые поступят в отель, для гарантии бронирования и получаете подтверждение на электронную почту или на телефон<br><br>Внимание! К оплате принимаются карты Visa и MasterCard.</strong></span>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+   <div id="wb_LayoutGrid10">
+      <div id="LayoutGrid10">
+         <div class="row">
+            <div class="col-1">
+               <div id="wb_Text2">
+                  <span style="color:#FFFFFF;">Copyright © 2021 Hotel.com.&nbsp; All Rights Reserved</span>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</body>
+</html>
